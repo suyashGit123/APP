@@ -8,6 +8,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -17,66 +19,65 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
 
-   public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>
+
+public class MyAdapter extends FirestoreRecyclerAdapter<Profile,MyAdapter.MyViewHolder>
+{
+
+    /**
+     * Create a new RecyclerView adapter that listens to a Firestore Query.  See {@link
+     * FirestoreRecyclerOptions} for configuration options.
+     *
+     * @param options
+     */
+    public MyAdapter(@NonNull FirestoreRecyclerOptions<Profile> options) {
+        super(options);
+    }
+
+    @Override
+    protected void onBindViewHolder(@NonNull MyViewHolder holder, int position, @NonNull Profile model) {
+        holder.email.setText(model.getEmail());
+        holder.name.setText(model.getName());
+        holder.desc.setText(model.getDesc());
+        holder.location.setText(model.getlocation());
+
+
+
+    }
+
+    @NonNull
+    @Override
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview,
+                parent, false);
+        return new MyViewHolder(v);
+    }
+
+    class MyViewHolder extends RecyclerView.ViewHolder
     {
-        Context context;
-        ArrayList<Profile> profiles;
+        Button btn;
+        TextView name,email,location,desc;
+        public MyViewHolder(@NonNull View itemView) {
+            super(itemView);
+            name = (TextView)itemView.findViewById(R.id.name);
+            email = (TextView)itemView.findViewById(R.id.email);
+            location = (TextView)itemView.findViewById(R.id.location);
+            desc = (TextView)itemView.findViewById(R.id.desc);
 
-        public MyAdapter(Context c , ArrayList<Profile> p)
+            btn = (Button) itemView.findViewById(R.id.CheckDetails);
+
+        }
+        /* button get document id 
+        public void onClick(final int position)
         {
-            context = c;
-            profiles = p;
-        }
-
-        @NonNull
-        @Override
-
-        public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.cardview,parent,false));
-        }
+            btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(, position+" is clicked", Toast.LENGTH_SHORT).show();
+                }
+            });
+            */
 
 
-        @Override
-        public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-            holder.name.setText(profiles.get(position).getName());
-            holder.email.setText(profiles.get(position).getEmail());
-            Picasso.get().load(profiles.get(position).getProfilePic()).into(holder.profilePic);
-            if(profiles.get(position).getPermission()) {
-                holder.btn.setVisibility(View.VISIBLE);
-                holder.onClick(position);
-            }
-
-
-
-        }
-
-        @Override
-        public int getItemCount() {
-            return 0;
-        }
-
-        class MyViewHolder extends RecyclerView.ViewHolder
-         {
-             ImageView profilePic;
-             Button btn;
-             TextView name,email;
-             public MyViewHolder(@NonNull View itemView) {
-                 super(itemView);
-                 name = (TextView)itemView.findViewById(R.id.name);
-                 email = (TextView)itemView.findViewById(R.id.email);
-                 profilePic = (ImageView) itemView.findViewById(R.id.profilePic);
-                 btn = (Button) itemView.findViewById(R.id.CheckDetails);
-             }
-             public void onClick(final int position)
-             {
-                 btn.setOnClickListener(new View.OnClickListener() {
-                     @Override
-                     public void onClick(View v) {
-                         Toast.makeText(context, position+" is clicked", Toast.LENGTH_SHORT).show();
-                     }
-                 });
-         }
-
-         }}
+    }}
 
 

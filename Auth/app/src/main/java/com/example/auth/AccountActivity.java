@@ -31,7 +31,7 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
 
                 break;
             case R.id.Events:
-                startActivity(new Intent(this,MainActivity.class));
+                startActivity(new Intent(this,Recycler.class));
         }
     }
 }
