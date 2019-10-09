@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
 
 public class MyAdapter extends FirestoreRecyclerAdapter<Profile,MyAdapter.MyViewHolder>
-{
+{   private OnItemClickListener listener;
 
     /**
      * Create a new RecyclerView adapter that listens to a Firestore Query.  See {@link
@@ -64,20 +65,30 @@ public class MyAdapter extends FirestoreRecyclerAdapter<Profile,MyAdapter.MyView
             desc = (TextView)itemView.findViewById(R.id.desc);
 
             btn = (Button) itemView.findViewById(R.id.CheckDetails);
-
+          itemView.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                  int position = getAdapterPosition();
+                  if(position !=RecyclerView.NO_POSITION && listener != null)
+                  {
+                      listener.onItemClick(getSnapshots().getSnapshot(position),position);
+                  }
+              }
+          });
         }
-        /* button get document id 
-        public void onClick(final int position)
-        {
-            btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(, position+" is clicked", Toast.LENGTH_SHORT).show();
-                }
-            });
-            */
 
 
-    }}
+
+    }
+    public interface OnItemClickListener
+    {
+        void onItemClick(DocumentSnapshot documentSnapshot,int position);
+    }
+    public void setOnItemClickListener(OnItemClickListener listener)
+    {
+        this.listener = listener;
+    }
+
+}
 
 

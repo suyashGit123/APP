@@ -4,9 +4,10 @@ package com.example.auth;
 public class Event {
     private String name;
     private String desc;
-    private int volunteers;
-    private String eventdate;
-    private String adinfo;
+   /// private int volunteers;
+    private String email;
+    private  String location;
+    //private String adinfo;
 
     public Event()
     {
@@ -29,27 +30,22 @@ public class Event {
         this.desc = desc;
     }
 
-    public int getVolunteers() {
-        return volunteers;
+
+
+
+    public String getEmail() {
+        return email;
     }
 
-    public void setVolunteers(int volunteers) {
-        this.volunteers = volunteers;
+    public void setEmail(String eventdate) {
+        this.email = email;
     }
 
-    public String getEventdate() {
-        return eventdate;
+    public String getLocation() {
+        return location;
     }
 
-    public void setEventdate(String eventdate) {
-        this.eventdate = eventdate;
-    }
-
-    public String getAdinfo() {
-        return adinfo;
-    }
-
-    public void setAdinfo(String adinfo) {
-        this.adinfo = adinfo;
+    public void setLocation(String adinfo) {
+        this.location = location;
     }
 }

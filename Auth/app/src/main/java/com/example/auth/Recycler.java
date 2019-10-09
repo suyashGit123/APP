@@ -12,6 +12,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
@@ -30,6 +31,14 @@ public class Recycler extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recycler);
         setUpRecyclerView();
+        adapter.setOnItemClickListener(new MyAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
+                Profile prof = documentSnapshot.toObject(Profile.class);
+                String id =documentSnapshot.getId();
+                Toast.makeText(Recycler.this,"Position" + position + "ID:" + id,Toast.LENGTH_SHORT).show();
+            }
+        });
     }
     private void setUpRecyclerView(){
         Query query = notebookRef.orderBy("name", Query.Direction.DESCENDING);
@@ -42,6 +51,7 @@ public class Recycler extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
+
 
     }
     @Override
